@@ -16,10 +16,15 @@ contract Cryptopunk is ERC721, ERC721Enumerable {
         return s_allPunks;
     }
 
+    function isNameExists(string memory _name) external view returns(bool){
+        return punksExists[_name];
+    }
+
     function mint(string memory _name) external {
-        if (punksExists[_name]) {
-            revert Cryptopunk__NameAlreadyExists();
-        }
+        // if (punksExists[_name]) {
+        //     revert Cryptopunk__NameAlreadyExists();
+        // }
+        require(!punksExists[_name]);
         s_allPunks.push(_name);
         uint256 punksLength = s_allPunks.length - 1;
         _mint(msg.sender, punksLength);
@@ -27,7 +32,6 @@ contract Cryptopunk is ERC721, ERC721Enumerable {
     }
 
     /* Inheriting functions */
-
     function _beforeTokenTransfer(
         address from,
         address to,
